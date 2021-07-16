@@ -1,0 +1,85 @@
+body {
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    @include font-basic;
+    color: $black;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+    font-family: $arial-helvetica-sans;
+    color: $black;
+    vertical-align: top;
+}
+
+p, span {
+    margin: 0;
+    padding: 0;
+    color: $black;
+    vertical-align: top;
+    @include font-basic;
+}
+
+hr {
+    margin: 20px 0;
+    border: 0;
+    border-top: 1px solid $gray-light;
+}
+
+img {
+    vertical-align: top;
+}
+
+a {
+    @include font-basic;
+    @include anchor__hover--black;
+}
+
+ol, ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    vertical-align: top;
+
+    li {
+        margin: 0;
+        padding: 0;
+        vertical-align: top;
+        @include font-basic;
+    }
+}
+
+button {
+    padding: 13px 20px;
+    font-size: .90em;
+    border: initial;
+    border-radius: 5px;
+    color: white;
+    background-color: lightskyblue;
+    cursor: pointer;
+}
+
+form {
+    fieldset {
+        margin: 0;
+        padding: 0;
+        @include font-basic;
+
+        legend {
+            margin: 0;
+            padding: 0;
+            border: initial;
+            @include font-basic;
+        }
+
+        input {
+            margin: 0;
+            padding: 10px 20px;
+            border: 1px solid $gray-light;
+            @include font-basic;
+        }
+    }
+}
