@@ -46,17 +46,19 @@
         },
         output: data => {
             let outputElem = document.getElementsByClassName('output')[0];
-            let renderElem = (li, tag, attr, data) => {
+            let renderElem = (parent, tag, attr, data) => {
                 let elem = document.createElement(tag);
                 elem.classList.add(attr);
 
                 if (tag === 'img') {
                     elem.setAttribute('src', data);
+                } else if (tag === 'a') {
+                    elem.setAttribute('href', data);
                 } else {
                     elem.innerHTML = data;
                 }
 
-                li.appendChild(elem);
+                parent.appendChild(elem);
             }
 
             if (data === undefined || data === {}) {
@@ -70,10 +72,14 @@
             for (const key in data) {
                 let li = document.createElement('li');
 
-                renderElem(li, 'img', 'thumbnail', `${data[key]['snippet']['thumbnails']['default']['url']}`);
-                renderElem(li, 'h3', 'title', `${data[key]['snippet']['title']}`);
-                renderElem(li, 'p', 'description', `${data[key]['snippet']['description']}`);
+                let a = document.createElement('a');
+                a.setAttribute('href', `https://www.youtube.com/watch?v=${data[key]['id']['videoId']}`);
 
+                renderElem(a, 'img', 'thumbnail', `${data[key]['snippet']['thumbnails']['default']['url']}`);
+                renderElem(a, 'h3', 'title', `${data[key]['snippet']['title']}`);
+                renderElem(a, 'h4', 'description', `${data[key]['snippet']['description']}`);
+
+                li.appendChild(a);
                 ul.appendChild(li);
             }
         }
