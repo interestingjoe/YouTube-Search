@@ -41,10 +41,8 @@
             if (api === undefined || api === '') {
                 return;
             }
-
             let response = await fetch(api);
-            let json = await response.json();
-            return json;
+            return response.json();
         },
         output: data => {
             let outputElem = document.getElementsByClassName('output')[0];
