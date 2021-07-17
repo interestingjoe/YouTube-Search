@@ -10,7 +10,7 @@
 
             $('#button').off();
             $('#button').on('click', () => {
-                let input = document.getElementsByClassName('input')[0];
+                let input = document.getElementById('input');
 
                 if (input.value === '') {
                     return;
