@@ -20,11 +20,21 @@
 
                 main.fetchAPI(api + '&key=' + config.apiKey + query)
                     .then(response => {
-                        outputElem.innerHTML = '';
-                        console.log(response.items);
-                        main.output(response.items);
+                        if (response.items.length > 0) {
+                            outputElem.innerHTML = '';
+                            console.log('1st', response.items);
+                            main.output(response.items);
+                            return response.items;
+                        } else {
+                            outputElem.innerHTML = 'No matching videos';
+                        }
                     })
-                    .catch(() => 'Error fetching results');
+                    .then(res => {
+                        console.log('2nd', res);
+                    })
+                    .catch(() => {
+                        outputElem.innerHTML = 'Error fetching data';
+                    });
             });
         },
         fetchAPI: async (api) => {
