@@ -113,19 +113,21 @@
         },
         output: (data, url) => {
             let dataItems = data.items;
-            let renderElem = (parent, tag, attr, data) => {
+            let renderElem = (tag, className, data, copy) => {
                 let elem = document.createElement(tag);
-                elem.classList.add(attr);
+                elem.classList.add(className);
 
-                if (tag === 'img') {
+                if (tag === 'img' && data !== null) {
                     elem.setAttribute('src', data);
-                } else if (tag === 'a') {
+                }
+                if (tag === 'a' && data !== null) {
                     elem.setAttribute('href', data);
-                } else {
-                    elem.innerHTML = data;
+                }
+                if (copy !== null) {
+                    elem.innerHTML = copy;
                 }
 
-                parent.appendChild(elem);
+                return elem;
             }
 
             if (dataItems === undefined || dataItems === {}) {
@@ -137,18 +139,24 @@
             main.outputElem.appendChild(ul);
 
             for (const key in dataItems) {
+                let videoID = dataItems[key]['id']['videoId'];
+
                 let li = document.createElement('li');
-                li.setAttribute('data-id', `${dataItems[key]['id']['videoId']}`);
-
-                let a = document.createElement('a');
-                a.setAttribute('href', `https://www.youtube.com/watch?v=${dataItems[key]['id']['videoId']}`);
-                li.appendChild(a);
-
-                renderElem(a, 'img', 'thumbnail', `${dataItems[key]['snippet']['thumbnails']['default']['url']}`);
-                renderElem(li, 'h3', 'title', `${dataItems[key]['snippet']['title']}`);
-                renderElem(li, 'h4', 'description', `${dataItems[key]['snippet']['description']}`);
-
+                li.setAttribute('data-id', videoID);
                 ul.appendChild(li);
+
+                let a = renderElem('a', 'image', `https://www.youtube.com/watch?v=${videoID}`, null);
+                li.appendChild(a);
+                a.appendChild(renderElem('img', 'thumbnail', `${dataItems[key]['snippet']['thumbnails']['default']['url']}`, null));
+
+                // Add Image tag ALT attribute here.
+                // `${dataItems[key]['snippet']['title']}`
+                // console.log('asdf', a.children('thumbnail'));
+
+                let div = renderElem('div', 'copy', null, null);
+                li.appendChild(div);
+                div.appendChild(renderElem('h3', 'title', null, `${dataItems[key]['snippet']['title']}`));
+                div.appendChild(renderElem('h4', 'description', null, `${dataItems[key]['snippet']['description']}`));
             }
 
             main.pagination(data, url);
