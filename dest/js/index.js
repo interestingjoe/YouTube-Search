@@ -22,6 +22,9 @@
         },
         goFetch: url => {
             let outputElem = document.getElementsByClassName('output')[0];
+            let api = 'https://content.googleapis.com/youtube/v3/';
+            let paramPart = 'part=snippet';
+
             main.fetchAPI(url)
                 .then(response => {
                     if (response.items.length > 0) {
