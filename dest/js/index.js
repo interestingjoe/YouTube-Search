@@ -86,35 +86,29 @@
             return response.json();
         },
         pagination: (data, url) => {
+            let setButton = (copy, attr, param) => {
+                let button = document.createElement('button');
+                button.setAttribute('id', attr);
+                button.innerHTML = copy;
+                div.appendChild(button);
+
+                $(`#${attr}`).off();
+                $(`#${attr}`).on('click', (e) => {
+                    e.preventDefault();
+                    main.outputElem.innerHTML = 'Loading...';
+                    main.fetchPromise(`${url}&pageToken=${param}`);
+                });
+            }
+
             let div = document.createElement('div');
             div.classList.add('pagination');
             main.outputElem.appendChild(div);
 
             if (data.prevPageToken !== undefined) {
-                let button = document.createElement('button');
-                button.setAttribute('id', 'prev');
-                button.innerHTML = 'PREVIOUS';
-                div.appendChild(button);
-
-                $('#prev').off();
-                $('#prev').on('click', (e) => {
-                    e.preventDefault();
-                    main.outputElem.innerHTML = 'Loading...';
-                    main.fetchPromise(`${url}&pageToken=${data.prevPageToken}`);
-                });
+                setButton('PREVIOUS', 'prev', data.prevPageToken);
             }
             if (data.nextPageToken !== undefined) {
-                let button = document.createElement('button');
-                button.setAttribute('id', 'next');
-                button.innerHTML = 'NEXT';
-                div.appendChild(button);
-
-                $('#next').off();
-                $('#next').on('click', (e) => {
-                    e.preventDefault();
-                    main.outputElem.innerHTML = 'Loading...';
-                    main.fetchPromise(`${url}&pageToken=${data.nextPageToken}`);
-                });
+                setButton('NEXT', 'next', data.nextPageToken);
             }
         },
         output: (data, url) => {
