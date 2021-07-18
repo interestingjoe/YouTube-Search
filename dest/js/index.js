@@ -25,7 +25,11 @@
                             main.output(response.items);
                             return response.items;
                         } else {
-                            outputElem.innerHTML = 'No matching videos';
+                            let p = document.createElement('p');
+                            p.classList.add('warning');
+                            p.innerHTML = 'No matching videos';
+                            outputElem.innerHTML = '';
+                            outputElem.appendChild(p);
                         }
                     })
                     .then(async response => {
@@ -62,7 +66,11 @@
                         }
                     })
                     .catch(() => {
-                        outputElem.innerHTML = 'Error fetching data';
+                        let p = document.createElement('p');
+                        p.classList.add('error');
+                        p.innerHTML = 'Error fetching data';
+                        outputElem.innerHTML = '';
+                        outputElem.appendChild(p);
                     });
             });
         },
