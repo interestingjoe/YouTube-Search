@@ -85,6 +85,38 @@
             let response = await fetch(api);
             return response.json();
         },
+        pagination: (data, url) => {
+            let div = document.createElement('div');
+            div.classList.add('pagination');
+            main.outputElem.appendChild(div);
+
+            if (data.prevPageToken !== undefined) {
+                let button = document.createElement('button');
+                button.setAttribute('id', 'prev');
+                button.innerHTML = 'PREVIOUS';
+                div.appendChild(button);
+
+                $('#prev').off();
+                $('#prev').on('click', (e) => {
+                    e.preventDefault();
+                    main.outputElem.innerHTML = 'Loading...';
+                    main.fetchPromise(`${url}&pageToken=${data.prevPageToken}`);
+                });
+            }
+            if (data.nextPageToken !== undefined) {
+                let button = document.createElement('button');
+                button.setAttribute('id', 'next');
+                button.innerHTML = 'NEXT';
+                div.appendChild(button);
+
+                $('#next').off();
+                $('#next').on('click', (e) => {
+                    e.preventDefault();
+                    main.outputElem.innerHTML = 'Loading...';
+                    main.fetchPromise(`${url}&pageToken=${data.nextPageToken}`);
+                });
+            }
+        },
         output: (data, url) => {
             let dataItems = data.items;
             let renderElem = (parent, tag, attr, data) => {
@@ -125,26 +157,7 @@
                 ul.appendChild(li);
             }
 
-            if (data.nextPageToken !== undefined) {
-                console.log('data:', data);
-                let div = document.createElement('div');
-                div.classList.add('prev-next');
-
-                let a = document.createElement('a');
-                a.classList.add('next');
-                a.setAttribute('href', `${url}&pageToken=${data.nextPageToken}`);
-                a.innerHTML = 'NEXT';
-                div.appendChild(a);
-
-                main.outputElem.appendChild(div);
-
-                $('.next').off();
-                $('.next').on('click', () => {
-                    main.outputElem.innerHTML = 'Loading...';
-                    main.fetchPromise(url);
-                });
-            }
-
+            main.pagination(data, url);
         }
     };
 
