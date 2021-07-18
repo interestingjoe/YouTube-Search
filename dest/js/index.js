@@ -1,13 +1,12 @@
 (() => {
     let main = {
+        api: 'https://content.googleapis.com/youtube/v3/',
+        paramPart: 'part=snippet',
+        outputElem: document.getElementsByClassName('output')[0],
         init: () => {
             main.search();
         },
         search: () => {
-            let outputElem = document.getElementsByClassName('output')[0];
-            let api = 'https://content.googleapis.com/youtube/v3/';
-            let paramPart = 'part=snippet';
-
             $('#button').off();
             $('#button').on('click', () => {
                 let input = document.getElementById('input');
@@ -15,30 +14,25 @@
                 if (input.value === '') {
                     return;
                 }
-                outputElem.innerHTML = 'Loading...';
-                let url = `${api}search?${paramPart}&key=${config.apiKey}&q=${encodeURIComponent(input.value.trim())}`;
-                main.goFetch(url);
+                main.outputElem.innerHTML = 'Loading...';
+                let url = `${main.api}search?${main.paramPart}&key=${config.apiKey}&q=${encodeURIComponent(input.value.trim())}`;
+                main.fetchPromise(url);
             });
         },
-        goFetch: url => {
-            let outputElem = document.getElementsByClassName('output')[0];
-            let api = 'https://content.googleapis.com/youtube/v3/';
-            let paramPart = 'part=snippet';
-
+        fetchPromise: url => {
             main.fetchAPI(url)
                 .then(response => {
+                    console.log('response', response);
                     if (response.items.length > 0) {
-                        outputElem.innerHTML = '';
+                        main.outputElem.innerHTML = '';
                         main.output(response, url);
-                        console.log('---', response);
-                        console.log('url', url);
                         return response.items;
                     } else {
                         let p = document.createElement('p');
                         p.classList.add('warning');
                         p.innerHTML = 'No matching videos';
-                        outputElem.innerHTML = '';
-                        outputElem.appendChild(p);
+                        main.outputElem.innerHTML = '';
+                        main.outputElem.appendChild(p);
                     }
                 })
                 .then(async response => {
@@ -48,7 +42,7 @@
                         if (response[key]['id']['videoId'] === undefined) {
                             continue;
                         }
-                        let url = `${api}videos?${paramPart}&key=${config.apiKey}&id=${response[key]['id']['videoId']}`;
+                        let url = `${main.api}videos?${main.paramPart}&key=${config.apiKey}&id=${response[key]['id']['videoId']}`;
                         let item = await main.fetchAPI(url);
                         arr.push(item);
                     }
@@ -80,8 +74,8 @@
                     let p = document.createElement('p');
                     p.classList.add('error');
                     p.innerHTML = 'Error fetching data';
-                    outputElem.innerHTML = '';
-                    outputElem.appendChild(p);
+                    main.outputElem.innerHTML = '';
+                    main.outputElem.appendChild(p);
                 });
         },
         fetchAPI: async (api) => {
@@ -92,7 +86,6 @@
             return response.json();
         },
         output: (data, url) => {
-            let outputElem = document.getElementsByClassName('output')[0];
             let dataItems = data.items;
             let renderElem = (parent, tag, attr, data) => {
                 let elem = document.createElement(tag);
@@ -115,7 +108,7 @@
 
             let ul = document.createElement('ul');
             ul.classList.add('list');
-            outputElem.appendChild(ul);
+            main.outputElem.appendChild(ul);
 
             for (const key in dataItems) {
                 let li = document.createElement('li');
@@ -143,12 +136,12 @@
                 a.innerHTML = 'NEXT';
                 div.appendChild(a);
 
-                outputElem.appendChild(div);
+                main.outputElem.appendChild(div);
 
                 $('.next').off();
                 $('.next').on('click', () => {
-                    outputElem.innerHTML = 'Loading...';
-                    main.goFetch(url);
+                    main.outputElem.innerHTML = 'Loading...';
+                    main.fetchPromise(url);
                 });
             }
 
