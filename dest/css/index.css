@@ -24,7 +24,6 @@ h1, h2, h3, h4, h5, h6 {
 p, span {
   margin: 0;
   padding: 0;
-  color: black;
   vertical-align: top;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 400;
@@ -32,6 +31,8 @@ p, span {
   font-style: normal;
   line-height: 1;
   letter-spacing: normal;
+  font-size: 16px;
+  color: black;
 }
 
 hr {
@@ -224,6 +225,10 @@ body .list .tags {
   line-height: normal;
 }
 
+body .error {
+  color: red;
+}
+
 @media only screen and (max-width: 768px) {
   body h1 {
     font-size: 26px;
@@ -246,5 +251,8 @@ body .list .tags {
   body .list .copy {
     display: block;
     width: 100%;
+  }
+  body .error {
+    color: red;
   }
 }

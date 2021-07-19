@@ -14,7 +14,13 @@
                 if (input.value === '') {
                     return;
                 }
-                main.outputElem.innerHTML = 'Loading...';
+                
+                let p = document.createElement('p');
+                p.classList.add('status');
+                p.innerHTML = 'Loading...';
+                main.outputElem.innerHTML = '';
+                main.outputElem.appendChild(p);
+
                 let url = `${main.api}search?${main.paramPart}&key=${config.apiKey}&q=${encodeURIComponent(input.value.trim())}`;
                 main.fetchPromise(url);
             });
@@ -73,7 +79,11 @@
                             li.appendChild(p);
                         }
                     } else {
-                        console.log('No available tags');
+                        let p = document.createElement('p');
+                        p.classList.add('warning');
+                        p.innerHTML = 'No available tags';
+                        main.outputElem.innerHTML = '';
+                        main.outputElem.appendChild(p);
                     }
                 })
                 .catch(() => {
@@ -101,7 +111,11 @@
                 $(`#${attr}`).off();
                 $(`#${attr}`).on('click', (e) => {
                     e.preventDefault();
-                    main.outputElem.innerHTML = 'Loading...';
+                    let p = document.createElement('p');
+                    p.classList.add('status');
+                    p.innerHTML = 'Loading...';
+                    main.outputElem.innerHTML = '';
+                    main.outputElem.appendChild(p);
                     main.fetchPromise(`${url}&pageToken=${param}`);
                 });
             }

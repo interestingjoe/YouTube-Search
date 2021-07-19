@@ -62,6 +62,15 @@ body {
             line-height: normal;
         }
     }
+    .status {
+        
+    }
+    .warning {
+
+    }
+    .error {
+        color: $red;
+    }
     .pagination {
         button {
             
