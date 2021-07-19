@@ -4,9 +4,9 @@
         paramPart: 'part=snippet',
         outputElem: document.getElementsByClassName('output')[0],
         init: () => {
-            main.search();
+            main.setEvent();
         },
-        search: () => {
+        setEvent: () => {
             $('#search').off();
             $('#search').on('click', () => {
                 let input = document.getElementById('input');
