@@ -6,8 +6,11 @@
         init: () => {
             main.setEvent();
         },
+
+        /**
+         * Add Event Listener for SEARCH and CLEAR buttons.
+         */
         setEvent: () => {
-            // Add Event for SEARCH button.
             $('#search').off();
             $('#search').on('click', () => {
                 let input = document.getElementById('input');
@@ -15,46 +18,37 @@
                 if (input.value === '') {
                     return;
                 }
-                
-                let p = document.createElement('p');
-                p.classList.add('status');
-                p.innerHTML = 'Loading...';
-                main.outputElem.innerHTML = '';
-                main.outputElem.appendChild(p);
 
+                main.createMessage('status', 'Loading...');
                 let url = `${main.api}search?${main.paramPart}&key=${config.apiKey}&q=${encodeURIComponent(input.value.trim())}`;
                 main.fetchPromise(url);
             });
 
-            // Add Event for CLEAR button.
             $('#clear').off();
             $('#clear').on('click', () => {
                 main.outputElem.innerHTML = '';
                 document.getElementById('input').value = '';
             });
         },
+
+        /**
+         * Fetch API with a Promise.
+         * @param {*} url 
+         */
         fetchPromise: url => {
-            // Fetching API with a Promise.
-
-            let createMessage = (className, copy) => {
-                let p = document.createElement('p');
-                p.classList.add(className);
-                p.innerHTML = copy;
-                main.outputElem.innerHTML = '';
-                main.outputElem.appendChild(p);
-            }
-
             main.fetchAPI(url)
                 .then(response => {
+                    // Initial fetch
                     if (response.items.length > 0) {
                         main.outputElem.innerHTML = '';
                         main.output(response, url);
                         return response.items;
                     } else {
-                        createMessage('warning', 'No matching videos');
+                        main.createMessage('warning', 'No matching videos');
                     }
                 })
                 .then(async response => {
+                    // Fetches Video Tags
                     let arr = [];
                     for (const key in response) {
                         if (response[key]['id']['videoId'] === undefined) {
@@ -68,6 +62,7 @@
                 })
                 .then(response => {
                     if (response.length > 0) {
+                        // If Video Tags exists then render onto page.
                         for (const key in response) {
                             if (
                                 response[key]['items'][0]['id'] === undefined || 
@@ -84,17 +79,24 @@
                             li.appendChild(p);
                         }
                     } else {
+                        // If Video Tags don't exist then display message.
                         if (document.getElementsByClassName('list')[0] === undefined) {
                             return;
                         }
 
-                        createMessage('warning', 'No available tags');
+                        main.createMessage('warning', 'No available tags');
                     }
                 })
                 .catch(() => {
-                    createMessage('error', 'Error fetching data');
+                    main.createMessage('error', 'Error fetching data');
                 });
         },
+
+        /**
+         * Basic Async/Await function.
+         * @param {*} api 
+         * @returns json
+         */
         fetchAPI: async (api) => {
             if (api === undefined || api === '') {
                 return;
@@ -102,8 +104,32 @@
             let response = await fetch(api);
             return response.json();
         },
+        
+        /**
+         * Used to display Status or Error Messages in the output.
+         * @param {*} className 
+         * @param {*} copy 
+         */
+        createMessage: (className, copy) => {
+            let p = document.createElement('p');
+            p.classList.add(className);
+            p.innerHTML = copy;
+            main.outputElem.innerHTML = '';
+            main.outputElem.appendChild(p);
+        },
+
+        /**
+         * Creating PREV and NEXT buttons if they're available.
+         * @param {*} data 
+         * @param {*} url 
+         */
         pagination: (data, url) => {
-            // Creating PREV and NEXT buttons if they're available.
+            /**
+             * Used to render each button and attaches an Event Listener.
+             * @param {*} copy 
+             * @param {*} attr 
+             * @param {*} param 
+             */
             let createButton = (copy, attr, param) => {
                 let button = document.createElement('button');
                 button.setAttribute('id', attr);
@@ -113,11 +139,7 @@
                 $(`#${attr}`).off();
                 $(`#${attr}`).on('click', (e) => {
                     e.preventDefault();
-                    let p = document.createElement('p');
-                    p.classList.add('status');
-                    p.innerHTML = 'Loading...';
-                    main.outputElem.innerHTML = '';
-                    main.outputElem.appendChild(p);
+                    main.createMessage('status', 'Loading...');
                     main.fetchPromise(`${url}&pageToken=${param}`);
                 });
             }
@@ -133,9 +155,23 @@
                 createButton('NEXT', 'next', data.nextPageToken);
             }
         },
+        
+        /**
+         * Render output dynamically.
+         * @param {*} data 
+         * @param {*} url 
+         */
         output: (data, url) => {
-            // Render output dynamically.
             let dataItems = data.items;
+
+            /**
+             * Used to render each element.
+             * @param {*} tag 
+             * @param {*} className 
+             * @param {*} data 
+             * @param {*} copy 
+             * @returns element
+             */
             let renderElem = (tag, className, data, copy) => {
                 let elem = document.createElement(tag);
                 elem.classList.add(className);
