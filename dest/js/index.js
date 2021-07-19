@@ -7,8 +7,8 @@
             main.search();
         },
         search: () => {
-            $('#button').off();
-            $('#button').on('click', () => {
+            $('#search').off();
+            $('#search').on('click', () => {
                 let input = document.getElementById('input');
 
                 if (input.value === '') {
@@ -17,6 +17,12 @@
                 main.outputElem.innerHTML = 'Loading...';
                 let url = `${main.api}search?${main.paramPart}&key=${config.apiKey}&q=${encodeURIComponent(input.value.trim())}`;
                 main.fetchPromise(url);
+            });
+
+            $('#clear').off();
+            $('#clear').on('click', () => {
+                main.outputElem.innerHTML = '';
+                document.getElementById('input').value = '';
             });
         },
         fetchPromise: url => {
