@@ -34,7 +34,6 @@
         fetchPromise: url => {
             main.fetchAPI(url)
                 .then(response => {
-                    console.log('response', response);
                     if (response.items.length > 0) {
                         main.outputElem.innerHTML = '';
                         main.output(response, url);
@@ -48,7 +47,6 @@
                     }
                 })
                 .then(async response => {
-                    console.log('2nd', response);
                     let arr = [];
                     for (const key in response) {
                         if (response[key]['id']['videoId'] === undefined) {
@@ -61,7 +59,6 @@
                     return await Promise.all(arr);
                 })
                 .then(response => {
-                    console.log('3rd');
                     if (response.length > 0) {
                         for (const key in response) {
                             if (
