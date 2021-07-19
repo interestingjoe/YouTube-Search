@@ -147,11 +147,10 @@
 
                 let a = renderElem('a', 'image', `https://www.youtube.com/watch?v=${videoID}`, null);
                 li.appendChild(a);
-                a.appendChild(renderElem('img', 'thumbnail', `${dataItems[key]['snippet']['thumbnails']['default']['url']}`, null));
 
-                // Add Image tag ALT attribute here.
-                // `${dataItems[key]['snippet']['title']}`
-                // console.log('asdf', a.children('thumbnail'));
+                let img = renderElem('img', 'thumbnail', `${dataItems[key]['snippet']['thumbnails']['default']['url']}`, null);
+                img.setAttribute('alt', `${dataItems[key]['snippet']['title']}`);
+                a.appendChild(img);
 
                 let div = renderElem('div', 'copy', null, null);
                 li.appendChild(div);
