@@ -1,3 +1,70 @@
 body {
+    .search {
+        padding: 30px 50px;
+        background-color: lightgray;
+    }
+    h1 {
+        margin: 0 0 7px;
+        padding: 0;
+        @include font-basic;
+        font-size: 30px;
+        color: $black;
+    }
+    #input {
+        vertical-align: top;
+        max-width: 500px;
+        width: 30%;
+        margin: 0 10px 0 0;
+        padding: 10px 15px;
+        border: 1px solid #000;
+    }
+    #search {
 
+    }
+    #clear {
+
+    }
+
+    .output {
+        padding: 20px 50px 50px;
+    }
+    .list {
+        margin: 0 0 30px;
+        li {
+            margin: 0 0 40px;
+        }
+        .image {
+            display: inline-block;
+            vertical-align: top;
+            margin: 0 20px 7px 0;
+            .thumbnail {
+                display: block;
+            }
+        }
+        .copy {
+            display: inline-block;
+            vertical-align: top;
+            width: 84%;
+            .title {
+                margin: 0 0 14px;
+                font-size: 20px;
+                @include font-basic;
+            }
+            .description {
+                margin: 0 0 12px;
+                font-size: 16px;
+                @include font-basic;
+            }
+        }
+        .tags {
+            font-size: 12px;
+            @include font-basic;
+            line-height: normal;
+        }
+    }
+    .pagination {
+        button {
+            
+        }
+    }
 }

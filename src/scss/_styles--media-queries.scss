@@ -1,5 +1,54 @@
 @media only screen and (max-width: 768px) {
     body {
+        .search {
+    
+        }
+        h1 {
+            font-size: 26px;
+        }
+        #input {
+            display: block;
+            max-width: none;
+            width: 95%;
+            margin-bottom: 10px;            
+        }
+        #search {
+    
+        }
+        #clear {
+    
+        }
+    
+        .output {
 
+        }
+        .list {
+            li {
+            }
+            .image {
+                display: block;
+                margin-bottom: 20px;        
+                .thumbnail {
+                    max-width: 320px;
+                    width: 100%;
+                    margin: 0 auto;
+                }
+            }
+            .copy {
+                display: block;
+                width: 100%;
+                .title {
+                }
+                .description {
+                }
+            }
+            .tags {
+            }
+        }
+        .pagination {
+            button {
+                
+            }
+        }
     }
 }

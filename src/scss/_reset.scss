@@ -5,6 +5,7 @@ body {
     left: 0;
     @include font-basic;
     color: $black;
+    font-size: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -53,13 +54,22 @@ ol, ul {
 }
 
 button {
-    padding: 13px 20px;
+    margin: 0 10px 0 0;
+    padding: 10px;
     font-size: .90em;
-    border: initial;
-    border-radius: 5px;
+    border: 1px solid lightskyblue;
+    border-radius: 2px;
     color: white;
     background-color: lightskyblue;
     cursor: pointer;
+    @include font-basic;
+    font-size: 16px;
+    vertical-align: top;
+}
+
+button:hover {
+    color: lightskyblue;
+    background-color: $white;
 }
 
 form {

@@ -67,7 +67,7 @@
                             let p = document.createElement('p');
                             p.classList.add('tags');
                             let copy = response[key]['items'][0]['snippet']['tags'];
-                            p.innerHTML = '<strong>Video Tags:</strong> ' + copy.toString();
+                            p.innerHTML = '<strong>Video Tags:</strong> ' + copy.join(', ');
 
                             let li = document.querySelector(`[data-id='${response[key]['items'][0]['id']}'`);
                             li.appendChild(p);
