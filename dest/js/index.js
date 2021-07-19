@@ -7,6 +7,7 @@
             main.setEvent();
         },
         setEvent: () => {
+            // Add Event for SEARCH button.
             $('#search').off();
             $('#search').on('click', () => {
                 let input = document.getElementById('input');
@@ -25,6 +26,7 @@
                 main.fetchPromise(url);
             });
 
+            // Add Event for CLEAR button.
             $('#clear').off();
             $('#clear').on('click', () => {
                 main.outputElem.innerHTML = '';
@@ -32,6 +34,16 @@
             });
         },
         fetchPromise: url => {
+            // Fetching API with a Promise.
+
+            let createMessage = (className, copy) => {
+                let p = document.createElement('p');
+                p.classList.add(className);
+                p.innerHTML = copy;
+                main.outputElem.innerHTML = '';
+                main.outputElem.appendChild(p);
+            }
+
             main.fetchAPI(url)
                 .then(response => {
                     if (response.items.length > 0) {
@@ -39,11 +51,7 @@
                         main.output(response, url);
                         return response.items;
                     } else {
-                        let p = document.createElement('p');
-                        p.classList.add('warning');
-                        p.innerHTML = 'No matching videos';
-                        main.outputElem.innerHTML = '';
-                        main.outputElem.appendChild(p);
+                        createMessage('warning', 'No matching videos');
                     }
                 })
                 .then(async response => {
@@ -76,19 +84,15 @@
                             li.appendChild(p);
                         }
                     } else {
-                        let p = document.createElement('p');
-                        p.classList.add('warning');
-                        p.innerHTML = 'No available tags';
-                        main.outputElem.innerHTML = '';
-                        main.outputElem.appendChild(p);
+                        if (document.getElementsByClassName('list')[0] === undefined) {
+                            return;
+                        }
+
+                        createMessage('warning', 'No available tags');
                     }
                 })
                 .catch(() => {
-                    let p = document.createElement('p');
-                    p.classList.add('error');
-                    p.innerHTML = 'Error fetching data';
-                    main.outputElem.innerHTML = '';
-                    main.outputElem.appendChild(p);
+                    createMessage('error', 'Error fetching data');
                 });
         },
         fetchAPI: async (api) => {
@@ -99,7 +103,8 @@
             return response.json();
         },
         pagination: (data, url) => {
-            let setButton = (copy, attr, param) => {
+            // Creating PREV and NEXT buttons if they're available.
+            let createButton = (copy, attr, param) => {
                 let button = document.createElement('button');
                 button.setAttribute('id', attr);
                 button.innerHTML = copy;
@@ -122,13 +127,14 @@
             main.outputElem.appendChild(div);
 
             if (data.prevPageToken !== undefined) {
-                setButton('PREVIOUS', 'prev', data.prevPageToken);
+                createButton('PREVIOUS', 'prev', data.prevPageToken);
             }
             if (data.nextPageToken !== undefined) {
-                setButton('NEXT', 'next', data.nextPageToken);
+                createButton('NEXT', 'next', data.nextPageToken);
             }
         },
         output: (data, url) => {
+            // Render output dynamically.
             let dataItems = data.items;
             let renderElem = (tag, className, data, copy) => {
                 let elem = document.createElement(tag);
@@ -155,6 +161,7 @@
             ul.classList.add('list');
             main.outputElem.appendChild(ul);
 
+            // Creates each element for every Title, Description, and Thumbnail.
             for (const key in dataItems) {
                 let videoID = dataItems[key]['id']['videoId'];
 
