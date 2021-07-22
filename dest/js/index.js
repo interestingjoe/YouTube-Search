@@ -210,7 +210,7 @@
                 let a = renderElem('a', 'image', `https://www.youtube.com/watch?v=${videoID}`, null);
                 li.appendChild(a);
 
-                let img = renderElem('img', 'thumbnail', `${dataItems[key]['snippet']['thumbnails']['default']['url']}`, null);
+                let img = renderElem('img', 'thumbnail', `${dataItems[key]['snippet']['thumbnails']['high']['url']}`, null);
                 img.setAttribute('alt', `${dataItems[key]['snippet']['title']}`);
                 a.appendChild(img);
 

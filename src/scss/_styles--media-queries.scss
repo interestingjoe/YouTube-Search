@@ -20,16 +20,16 @@
         }
     
         .output {
-
+            padding: 20px 14px 50px;
         }
         .list {
             li {
             }
             .image {
                 display: block;
-                margin-bottom: 20px;        
+                width: 100%;
+                margin: 0 auto 20px;
                 .thumbnail {
-                    max-width: 320px;
                     width: 100%;
                     margin: 0 auto;
                 }

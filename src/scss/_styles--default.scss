@@ -37,14 +37,18 @@ body {
             display: inline-block;
             vertical-align: top;
             margin: 0 20px 7px 0;
+            width: 16%;
             .thumbnail {
                 display: block;
+                max-width: 480px;
+                width: 100%;
+                height: auto;
             }
         }
         .copy {
             display: inline-block;
             vertical-align: top;
-            width: 84%;
+            width: 80%;
             .title {
                 margin: 0 0 14px;
                 font-size: 20px;
