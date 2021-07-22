@@ -68,6 +68,8 @@
                                 response[key]['items'][0]['id'] === undefined || 
                                 (response[key]['items'][0]['snippet']['tags'] === undefined || response[key]['items'][0]['snippet']['tags'] === [])
                             ) {
+                                // If one or more Video Tags don't exist then display message in Console Log.
+                                console.log('One or more items don\'t have available tags.');
                                 continue;
                             }
                             let p = document.createElement('p');
